@@ -1,7 +1,7 @@
 from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 
-from usage.models import User, Role
+from usage.models import User, Role, Article
 
 
 class BadOneToOneSerializer(serializers.ModelSerializer):
@@ -57,3 +57,19 @@ class EasyOneToOneSerializer(WritableNestedModelSerializer):
     class Meta:
         model = User
         fields = ["id", "name", "role"]
+
+
+class ArticleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        # idも含めないと、関連データ全部消してから作り直す
+        fields = ["id", "title"]
+
+
+class EasyOneToManySerializer(WritableNestedModelSerializer):
+    # view側でprefetch_relatedしないとN+1問題が起こる
+    article = ArticleSerializer(many=True)
+
+    class Meta:
+        model = User
+        fields = ["id", "name", "article"]

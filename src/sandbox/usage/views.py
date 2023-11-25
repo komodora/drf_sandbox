@@ -5,6 +5,7 @@ from usage.serializers import (
     BadOneToOneSerializer,
     GoodOneToOneSerializer,
     EasyOneToOneSerializer,
+    EasyOneToManySerializer,
 )
 
 
@@ -22,3 +23,8 @@ class GoodOneToOneView(viewsets.ModelViewSet):
 class EasyOneToOneView(viewsets.ModelViewSet):
     queryset = User.objects.select_related("role")
     serializer_class = EasyOneToOneSerializer
+
+
+class EasyOneToManyView(viewsets.ModelViewSet):
+    queryset = User.objects.prefetch_related("article")
+    serializer_class = EasyOneToManySerializer
