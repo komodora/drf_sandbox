@@ -21,7 +21,8 @@ from rest_framework import routers
 from usage import views
 
 router = routers.DefaultRouter()
-router.register(r"one-to-one", views.OneToOneView)
+router.register(r"one-to-one/bad", views.BadOneToOneView)
+router.register(r"one-to-one/good", views.GoodOneToOneView)
 
 urlpatterns = [
     path("", include(router.urls)),
