@@ -10,7 +10,7 @@
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "git config --global user.name \"komoto taichi\" && git config --global user.email 724komodora915@gmail.com && pip install -r requirements.txt",
+  "postCreateCommand": "pip install -r requirements.txt",
   // Configure tool-specific properties.
   "customizations": {
     "vscode": {
