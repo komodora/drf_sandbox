@@ -26,4 +26,5 @@ router.register(r"one-to-one", views.OneToOneView)
 urlpatterns = [
     path("", include(router.urls)),
     path("admin/", admin.site.urls),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
