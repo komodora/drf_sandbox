@@ -1,3 +1,4 @@
+from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 
 from usage.models import User, Role
@@ -38,3 +39,21 @@ class GoodOneToOneSerializer(serializers.ModelSerializer):
         # OneToOneの場合はドットでアクセスできる
         user.role.login = login
         return user
+
+
+#
+# drf_writable_nestedを使用した場合
+# 親側でWritableNestedModelSerializerを継承し、フィールドにネスト先のシリアライザを追加
+#
+class RoleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Role
+        fields = ["login"]
+
+
+class EasyOneToOneSerializer(WritableNestedModelSerializer):
+    role = RoleSerializer()
+
+    class Meta:
+        model = User
+        fields = ["id", "name", "role"]

@@ -23,6 +23,7 @@ from usage import views
 router = routers.DefaultRouter()
 router.register(r"one-to-one/bad", views.BadOneToOneView)
 router.register(r"one-to-one/good", views.GoodOneToOneView)
+router.register(r"one-to-one/easy", views.EasyOneToOneView)
 
 urlpatterns = [
     path("", include(router.urls)),
