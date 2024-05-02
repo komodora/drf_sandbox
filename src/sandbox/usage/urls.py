@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from usage import views
+from usage.nested_response import views
 
 router = routers.DefaultRouter()
 router.register(r"one-to-one/bad", views.BadOneToOneView)
