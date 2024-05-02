@@ -132,5 +132,6 @@ INTERNAL_IPS = [
 ]
 
 REST_FRAMEWORK = {
+    "EXCEPTION_HANDLER": "usage.custom_exception.handler.custom_default_exception_handler",
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
