@@ -1,0 +1,23 @@
+[project]
+name = "sandbox"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "komodora", email = "724komodora915@gmail.com"},
+]
+dependencies = [
+    "django-debug-toolbar==4.2.0",
+    "djangorestframework==3.14.0",
+    "drf-spectacular==0.26.5",
+    "drf-writable-nested==0.7.0",
+]
+requires-python = "==3.11.*"
+readme = "README.md"
+license = {text = "NONE"}
+
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.scripts]
+start = "python src/sandbox/manage.py runserver "
