@@ -3,9 +3,9 @@ from rest_framework import viewsets
 from usage.models import User
 from usage.nested_response.serializers import (
     BadOneToOneSerializer,
-    GoodOneToOneSerializer,
-    EasyOneToOneSerializer,
     EasyOneToManySerializer,
+    EasyOneToOneSerializer,
+    GoodOneToOneSerializer,
 )
 
 

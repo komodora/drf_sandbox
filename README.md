@@ -3,6 +3,7 @@
 ## 環境
 
 - package manager: [pdm](https://pdm-project.org/en/stable/)
+- linter, formatter: [ruff](https://docs.astral.sh/ruff/)
 
 ## ディレクトリ構成
 
