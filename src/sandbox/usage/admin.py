@@ -1,9 +1,10 @@
 from django.contrib import admin
 
-from usage import models
+from usage.models.models_common_column import SubModel
+from usage.models.models_nested_response import Article, Role, User
 
 # Register your models here.
-admin.site.register(models.User)
-admin.site.register(models.Role)
-admin.site.register(models.Article)
-admin.site.register(models.SubModel)
+admin.site.register(User)
+admin.site.register(Role)
+admin.site.register(Article)
+admin.site.register(SubModel)

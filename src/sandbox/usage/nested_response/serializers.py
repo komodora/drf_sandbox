@@ -1,7 +1,7 @@
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 from rest_framework import serializers
 
-from usage.models import Article, Role, User
+from usage.models.models_nested_response import Article, Role, User
 
 
 class BadOneToOneSerializer(serializers.ModelSerializer):

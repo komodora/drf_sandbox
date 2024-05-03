@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 
-from usage.models import User
+from usage.models.models_nested_response import User
 from usage.nested_response.serializers import (
     BadOneToOneSerializer,
     EasyOneToManySerializer,

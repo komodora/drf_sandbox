@@ -1,6 +1,6 @@
 from rest_framework import serializers, viewsets
 
-from usage.models import SubModel
+from usage.models.models_common_column import SubModel
 
 
 class SubModelSerializer(serializers.ModelSerializer):
