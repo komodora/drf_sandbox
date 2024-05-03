@@ -19,6 +19,7 @@
 - APIドキュメントの生成
   - swagger: `/api/schema/swagger-ui/`
   - redoc: `/api/schema/redoc/`
+- [configの分割](src/sandbox/config/settings/base.py)
 - [共通カラム](src/sandbox/usage/models/models_common_column.py)
 - [独自exception_handler](src/sandbox/usage/custom_exception/views.py)
 - [modelsファイルの分割](src/sandbox/usage/models/__init__.py)
