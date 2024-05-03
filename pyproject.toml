@@ -38,4 +38,4 @@ known-first-party = ["usage"]
 
 [tool.ruff.lint.per-file-ignores]
 "src/sandbox/usage/models/__init__.py" = ["F401"]
-"src/tests/**" = ["N802"]
+"tests/**" = ["N802"]
