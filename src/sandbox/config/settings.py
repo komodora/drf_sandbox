@@ -136,4 +136,4 @@ REST_FRAMEWORK = {
 }
 
 # MEMO: テスト用のFIXTURESも検索対象に追加
-FIXTURE_DIRS = [BASE_DIR.parent / "tests/fixtures"]
+FIXTURE_DIRS = [BASE_DIR.parent.parent / "tests/fixtures"]

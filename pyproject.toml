@@ -24,7 +24,7 @@ django = "python src/sandbox/manage.py"
 start = "python src/sandbox/manage.py runserver"
 lint = "ruff check"
 format = "ruff format"
-test = "python src/sandbox/manage.py test src/tests"
+test = "python src/sandbox/manage.py test tests"
 
 [tool.ruff]
 exclude = ["src/sandbox/usage/migrations"]
