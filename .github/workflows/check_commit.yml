@@ -1,0 +1,28 @@
+name: Check commit
+
+on: push
+
+jobs:
+  Lint_and_Test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PDM
+        uses: pdm-project/setup-pdm@v4
+        with:
+          python-version: "3.11"
+          cache: true
+
+      - name: Install dependencies
+        run: pdm sync -d
+
+      - name: Lint src
+        run: pdm lint
+
+      - name: Format src
+        run: pdm format
+
+      - name: Run Tests
+        run: pdm test
