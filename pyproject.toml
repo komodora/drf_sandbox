@@ -20,13 +20,17 @@ dev = ["ruff>=0.4.2"]
 distribution = false
 
 [tool.pdm.scripts]
-start = "python src/sandbox/manage.py runserver "
+django = "python src/sandbox/manage.py"
+start = "python src/sandbox/manage.py runserver"
+lint = "ruff check"
+format = "ruff format"
 
 [tool.ruff]
 exclude = ["src/sandbox/usage/migrations"]
 
 [tool.ruff.lint]
 select = ["F", "E", "W", "C90", "I", "N", "UP", "S", "DJ"]
+ignore = ["E501"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["usage"]
