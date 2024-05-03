@@ -19,5 +19,6 @@
 - APIドキュメントの生成
   - swagger: `/api/schema/swagger-ui/`
   - redoc: `/api/schema/redoc/`
+- 共通カラム
 - 独自exception_handler
-- ネストされたレスポンスの作り方
+- ネストされたレスポンス

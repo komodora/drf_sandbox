@@ -20,7 +20,10 @@
         "mosapride.zenkaku",
         "ms-ceintl.vscode-language-pack-ja",
         "ms-python.python",
-        "charliermarsh.ruff"
+        "charliermarsh.ruff",
+        "tamasfe.even-better-toml",
+        "yzhang.markdown-all-in-one",
+        "shd101wyy.markdown-preview-enhanced"
       ],
       "settings": {
         "[python]": {

@@ -24,6 +24,7 @@ django = "python src/sandbox/manage.py"
 start = "python src/sandbox/manage.py runserver"
 lint = "ruff check"
 format = "ruff format"
+test = "python src/sandbox/manage.py test src/tests"
 
 [tool.ruff]
 exclude = ["src/sandbox/usage/migrations"]
@@ -34,3 +35,6 @@ ignore = ["E501"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["usage"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/tests/**" = ["N802"]
