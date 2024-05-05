@@ -24,11 +24,14 @@
 - [独自exception_handler](src/sandbox/usage/custom_exception/views.py)
 - [modelsファイルの分割](src/sandbox/usage/models/__init__.py)
 - ネストされたレスポンス
+- [djangoカスタムコマンドの追加](src/sandbox/usage/management/commands/batch.py)
 
 追加予定
-- djangoカスタムコマンド
 - middleware
 - カバレッジ
 - bulk create
 - signals
 - validation
+
+やりたいこと
+- vscodeのテストでテストケースを個別実行
