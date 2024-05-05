@@ -2,6 +2,7 @@
 
 ## 環境
 
+- [Django REST Framework](https://www.django-rest-framework.org/)
 - package manager: [pdm](https://pdm-project.org/en/stable/)
 - linter, formatter: [ruff](https://docs.astral.sh/ruff/)
 
@@ -11,7 +12,7 @@
   - sandbox: Django Project ディレクトリ
     - usage: Django Application ディレクトリ
       - \<feature>: 各機能のお試し場
-  - tests: テストディレクトリ
+- tests: テストディレクトリ
 
 ## 実装機能
 
@@ -28,10 +29,13 @@
 - [middlewareの実装](src/sandbox/usage/middleware/access_log.py)
 
 追加予定
-- カバレッジ
-- bulk create
-- signals
+- viewsのカスタマイズ
 - validation
+- logging
+- データマイグレを含むマイグレ
+- signals
+- bulk create
+- カバレッジ
 
 やりたいこと
 - vscodeのテストでテストケースを個別実行
