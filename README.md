@@ -21,13 +21,13 @@
   - redoc: `/api/schema/redoc/`
 - [configの分割](src/sandbox/config/settings/base.py)
 - [共通カラム](src/sandbox/usage/models/models_common_column.py)
-- [独自exception_handler](src/sandbox/usage/custom_exception/views.py)
+- [独自Exception, exception_handlerの実装](src/sandbox/usage/custom_exception/views.py)
 - [modelsファイルの分割](src/sandbox/usage/models/__init__.py)
 - ネストされたレスポンス
 - [djangoカスタムコマンドの追加](src/sandbox/usage/management/commands/batch.py)
+- [middlewareの実装](src/sandbox/usage/middleware/access_log.py)
 
 追加予定
-- middleware
 - カバレッジ
 - bulk create
 - signals
