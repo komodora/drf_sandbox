@@ -9,7 +9,7 @@ readme = "README.md"
 license = { text = "NONE" }
 
 [tool.pdm.dev-dependencies]
-dev = ["django-debug-toolbar==4.2.0", "drf-spectacular==0.26.5", "ruff>=0.4.2"]
+dev = ["django-debug-toolbar==4.2.0", "drf-spectacular==0.26.5", "ruff>=0.11.3"]
 
 [tool.pdm]
 distribution = false
