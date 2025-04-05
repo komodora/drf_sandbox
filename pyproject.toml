@@ -8,9 +8,6 @@ requires-python = "==3.11.*"
 readme = "README.md"
 license = { text = "NONE" }
 
-[tool.pdm.dev-dependencies]
-dev = ["django-debug-toolbar==4.2.0", "drf-spectacular==0.26.5", "ruff>=0.11.3"]
-
 [tool.pdm]
 distribution = false
 
@@ -34,3 +31,11 @@ known-first-party = ["usage"]
 [tool.ruff.lint.per-file-ignores]
 "src/sandbox/usage/models/__init__.py" = ["F401"]
 "tests/**" = ["N802"]
+
+[dependency-groups]
+dev = [
+    "django-debug-toolbar==4.2.0",
+    "drf-spectacular==0.26.5",
+    "ruff>=0.11.3",
+    "pytest-django>=4.11.1",
+]
