@@ -1,4 +1,11 @@
-from rest_framework import authentication, exceptions
+from rest_framework import authentication, exceptions, permissions
+
+
+class ExampleUser:
+    def __init__(self, name: str, mail: str) -> None:
+        self.name = name
+        self.mail = mail
+        self.is_authenticated = True
 
 
 class ExampleAuthentication(authentication.BaseAuthentication):
@@ -8,7 +15,7 @@ class ExampleAuthentication(authentication.BaseAuthentication):
             return None
 
         try:
-            user = {"name": "hoge", "mail": "hoge@example.com"}
+            user = ExampleUser("hoge", "hoge@example.com")
         except Exception:
             raise exceptions.AuthenticationFailed("No such user")
 
@@ -16,3 +23,11 @@ class ExampleAuthentication(authentication.BaseAuthentication):
 
     def authenticate_header(self, request):
         return 'Bearer realm="example"'
+
+
+class ExampleAccessPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return super().has_permission(request, view)
+
+    def has_object_permission(self, request, view, obj):
+        return super().has_object_permission(request, view, obj)
