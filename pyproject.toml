@@ -8,9 +8,6 @@ requires-python = "==3.11.*"
 readme = "README.md"
 license = { text = "NONE" }
 
-[tool.pdm.dev-dependencies]
-dev = ["django-debug-toolbar==4.2.0", "drf-spectacular==0.26.5", "ruff>=0.11.3"]
-
 [tool.pdm]
 distribution = false
 
@@ -19,7 +16,7 @@ django = "python src/sandbox/manage.py"
 start = "python src/sandbox/manage.py runserver"
 lint = "ruff check"
 format = "ruff format"
-test = "python src/sandbox/manage.py test tests"
+test = "pytest"
 
 [tool.ruff]
 exclude = ["src/sandbox/usage/migrations"]
@@ -34,3 +31,16 @@ known-first-party = ["usage"]
 [tool.ruff.lint.per-file-ignores]
 "src/sandbox/usage/models/__init__.py" = ["F401"]
 "tests/**" = ["N802"]
+
+[dependency-groups]
+dev = [
+  "django-debug-toolbar==4.2.0",
+  "drf-spectacular==0.26.5",
+  "ruff>=0.11.3",
+  "pytest-django>=4.11.1",
+]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "src.sandbox.config.settings.local"
+pythonpath = [".", "src/sandbox"]
+python_files = ["tests.py", "test_*.py", "*_tests.py"]

@@ -29,6 +29,7 @@
 - [djangoカスタムコマンドの追加](src/sandbox/usage/management/commands/batch.py)
 - [middlewareの実装](src/sandbox/usage/middleware/access_log.py)
 - [serializerにおけるvalidation](src/sandbox/usage/validation/serializer.py)
+- [pytest-djangoの導入](tests/README.md)
 
 追加予定
 - viewsのカスタマイズ
