@@ -16,7 +16,7 @@ django = "python src/sandbox/manage.py"
 start = "python src/sandbox/manage.py runserver"
 lint = "ruff check"
 format = "ruff format"
-test = "python src/sandbox/manage.py test tests"
+test = "pytest"
 
 [tool.ruff]
 exclude = ["src/sandbox/usage/migrations"]
@@ -34,8 +34,13 @@ known-first-party = ["usage"]
 
 [dependency-groups]
 dev = [
-    "django-debug-toolbar==4.2.0",
-    "drf-spectacular==0.26.5",
-    "ruff>=0.11.3",
-    "pytest-django>=4.11.1",
+  "django-debug-toolbar==4.2.0",
+  "drf-spectacular==0.26.5",
+  "ruff>=0.11.3",
+  "pytest-django>=4.11.1",
 ]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "src.sandbox.config.settings.local"
+pythonpath = [".", "src/sandbox"]
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
