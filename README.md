@@ -18,9 +18,10 @@
 
 - django-debug-toolbar
 - APIドキュメントの生成
-  - swagger: `/api/schema/swagger-ui/`
-  - redoc: `/api/schema/redoc/`
+  - swagger: http://localhost:8000/api/schema/swagger-ui/
+  - redoc: http://localhost:8000/api/schema/redoc/
 - [configの分割](src/sandbox/config/settings/base.py)
+- [カスタム認証クラス](src/sandbox/usage/authentication/README.md)
 - [共通カラム](src/sandbox/usage/models/models_common_column.py)
 - [独自Exception, exception_handlerの実装](src/sandbox/usage/custom_exception/views.py)
 - [modelsファイルの分割](src/sandbox/usage/models/__init__.py)
