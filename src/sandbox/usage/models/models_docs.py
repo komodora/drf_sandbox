@@ -5,11 +5,11 @@ class DocsMain(models.Model):
     CHOICES = [(0, "alpha"), (1, "bravo"), (2, "charlie")]
 
     title = models.CharField(verbose_name="タイトル", max_length=50, unique=True)
-    char_field = models.CharField(verbose_name="CharField(20)", max_length=20)
-    text_field = models.TextField(verbose_name="TextField")
-    integer_field = models.IntegerField(verbose_name="IntegerField", null=True)
-    date_field = models.DateField(verbose_name="DateField", auto_now_add=True)
-    date_time_field = models.DateTimeField(verbose_name="DateTimeField", auto_now=True)
+    char_field = models.CharField(verbose_name="20文字まで", max_length=20)
+    text_field = models.TextField(verbose_name="テキスト")
+    integer_field = models.IntegerField(verbose_name="整数", null=True)
+    date_field = models.DateField(verbose_name="日付", auto_now_add=True)
+    date_time_field = models.DateTimeField(verbose_name="日時", auto_now=True)
     choices = models.IntegerField(verbose_name="選択式", choices=CHOICES)
 
     class Meta:
@@ -29,7 +29,7 @@ class DocsMain(models.Model):
 
 
 class DocsForeignKey(models.Model):
-    name = models.TextField(verbose_name="name")
+    name = models.TextField(verbose_name="名前")
     ref = models.ForeignKey(
         DocsMain,
         on_delete=models.CASCADE,
@@ -45,7 +45,7 @@ class DocsForeignKey(models.Model):
 
 
 class DocsManyToMany(models.Model):
-    name = models.TextField(verbose_name="name")
+    name = models.TextField(verbose_name="名前")
     ref = models.ManyToManyField(DocsMain)
 
     class Meta:
