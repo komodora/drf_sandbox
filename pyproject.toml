@@ -3,7 +3,11 @@ name = "sandbox"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [{ name = "komodora", email = "724komodora915@gmail.com" }]
-dependencies = ["djangorestframework==3.14.0", "drf-writable-nested==0.7.0", "djangorestframework-simplejwt>=5.5.0"]
+dependencies = [
+  "djangorestframework==3.14.0",
+  "drf-writable-nested==0.7.0",
+  "djangorestframework-simplejwt>=5.5.0",
+]
 requires-python = "==3.11.*"
 readme = "README.md"
 license = { text = "NONE" }
@@ -17,6 +21,7 @@ start = "python src/sandbox/manage.py runserver"
 lint = "ruff check"
 format = "ruff format"
 test = "pytest"
+makedocs = "python src/sandbox/manage.py makedocs"
 
 [tool.ruff]
 exclude = ["src/sandbox/usage/migrations"]

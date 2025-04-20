@@ -9,5 +9,6 @@ REF: https://tokibito.hatenablog.com/entry/20120515/1337058137
 """
 
 from usage.models.models_common_column import SubModel
+from usage.models.models_docs import DocsForeignKey, DocsMain, DocsManyToMany
 from usage.models.models_nested_response import Article, Role, User
 from usage.models.models_validation import Validation, ValidationReference
