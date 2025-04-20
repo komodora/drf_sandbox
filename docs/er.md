@@ -1,59 +1,65 @@
 ```mermaid
 erDiagram
     docs_foreign_key ||--|{ docs_main : docs_foreign_key
-    docs_many_to_many ||--|{ docs_main : docsmanytomany
+    docs_many_to_many_ref ||--|{ docs_many_to_many : DocsManyToMany_ref
+    docs_many_to_many_ref ||--|{ docs_main : DocsManyToMany_ref
     usage_role ||--|{ usage_user : role
     usage_article ||--|{ usage_user : article
     usage_validation ||--|{ usage_validationreference : validation
     usage_submodel {
-        BigAutoField id
-        DateTimeField created_at
-        DateTimeField updated_at
-        CharField title
+        integer id
+        datetime created_at
+        datetime updated_at
+        varchar(50) title
     }
     docs_main {
-        BigAutoField id
-        CharField title
-        CharField char_field
-        TextField text_field
-        IntegerField integer_field
-        DateField date_field
-        DateTimeField date_time_field
-        IntegerField choices
+        integer id
+        char(32) uuid
+        varchar(50) title
+        varchar(20) char_field
+        text text_field
+        integer integer_field
+        date date_field
+        datetime date_time_field
+        integer choices
     }
     docs_foreign_key {
-        BigAutoField id
-        TextField name
-        ForeignKey ref_id
+        integer id
+        text name
+        integer ref_id
     }
     docs_many_to_many {
-        BigAutoField id
-        TextField name
-        ManyToManyField ref
+        integer id
+        text name
+    }
+    docs_many_to_many_ref {
+        integer id
+        integer docsmanytomany_id
+        integer docsmain_id
     }
     usage_user {
-        BigAutoField id
-        CharField name
+        integer id
+        varchar(20) name
     }
     usage_role {
-        BigAutoField id
-        OneToOneField user_id
-        BooleanField login
+        integer id
+        integer user_id
+        bool login
     }
     usage_article {
-        BigAutoField id
-        ForeignKey user_id
-        CharField title
+        integer id
+        integer user_id
+        varchar(50) title
     }
     usage_validationreference {
-        CharField name
+        varchar(20) name
     }
     usage_validation {
-        BigAutoField id
-        CharField length
-        IntegerField positive_even
-        CharField unique
-        CharField choices
-        ForeignKey ref_id
+        integer id
+        varchar(20) length
+        integer positive_even
+        varchar(20) unique
+        varchar(20) choices
+        varchar(20) ref_id
     }
 ```

@@ -2,7 +2,7 @@ import os
 from typing import TypedDict
 
 from django.apps import apps
-from django.db import models
+from django.db import connection, models
 from django.db.models import Field
 from django.db.models.fields.related import (
     ForeignKey,
@@ -26,12 +26,14 @@ class ChoiceInfo(TypedDict):
 
 class FieldInfo(TypedDict):
     column_name: str
+    # Djangoの型
     field_type: str
+    # DBの型
+    db_type: str | None
     null: bool | None
     unique: bool | None
     primary_key: bool | None
     verbose_name: str
-    is_relation: bool
     related_model: RelatedModelInfo | None
     choices: list[ChoiceInfo] | None
     on_delete: str | None
@@ -43,76 +45,115 @@ class UniqueConstraintInfo(TypedDict):
     fields: tuple[str]
 
 
+class CheckConstraintInfo(TypedDict):
+    name: str
+    check: str
+
+
 class ModelInfo(TypedDict):
     table_name: str
     model_name: str
     fields: list[FieldInfo]
     unique_constraints: list[UniqueConstraintInfo]
+    check_constraints: list[CheckConstraintInfo]
 
 
 class ModelsManager:
     def __init__(self) -> None:
-        all_models = apps.get_models()
-        app_models = [
+        self.models: list[ModelInfo] = []
+        app_models = self.collect_models()
+
+        for model in app_models:
+            model_info = self.build_model_info(model)
+            self.models.append(model_info)
+            self.collect_through_models(model)
+
+    def collect_models(self) -> list[type[models.Model]]:
+        return [
             model
-            for model in all_models
+            for model in apps.get_models()
             if not model.__module__.startswith("django.contrib")
         ]
 
-        self.models: list[ModelInfo] = []
+    def build_model_info(self, model: type[models.Model]) -> ModelInfo:
+        model_info: ModelInfo = {
+            "table_name": model._meta.db_table,
+            "model_name": model.__name__,
+            "fields": [],
+            "unique_constraints": [],
+            "check_constraints": [],
+        }
 
-        # モデル情報の収集
-        for model in app_models:
-            model_info: ModelInfo = {
-                "table_name": model._meta.db_table,
-                "model_name": model.__name__,
-                "fields": [],
-                "unique_constraints": [],
-            }
+        for field in model._meta.get_fields():
+            field_info = self.get_field_info(field)
+            if field_info:
+                model_info["fields"].append(field_info)
 
-            # フィールド情報の収集
-            for field in model._meta.get_fields():
-                field_info = ModelsManager.get_field_info(field)
-                if field_info:
-                    model_info["fields"].append(field_info)
-
-            for constraint in model._meta.constraints:
-                if isinstance(constraint, models.UniqueConstraint):
-                    unique_constraint_info: UniqueConstraintInfo = {
+        for constraint in model._meta.constraints:
+            if isinstance(constraint, models.UniqueConstraint):
+                model_info["unique_constraints"].append(
+                    {
                         "name": constraint.name,
                         "fields": constraint.fields,
                     }
-                    model_info["unique_constraints"].append(unique_constraint_info)
+                )
+            elif isinstance(constraint, models.CheckConstraint):
+                model_info["check_constraints"].append(
+                    {
+                        "name": constraint.name,
+                        "check": str(constraint.check),
+                    }
+                )
 
-            self.models.append(model_info)
+        return model_info
+
+    def collect_through_models(self, model: type[models.Model]) -> None:
+        for field in model._meta.get_fields():
+            if isinstance(field, ManyToManyField):
+                through_model = field.remote_field.through  # type: ignore
+                if through_model._meta.auto_created:
+                    if not any(
+                        m["table_name"] == through_model._meta.db_table
+                        for m in self.models
+                    ):
+                        through_info = self.build_model_info(through_model)
+                        self.models.append(through_info)
 
     @staticmethod
     def get_field_info(field: Field | ForeignObjectRel) -> FieldInfo | None:
+        # ManyToManyField は中間テーブル経由で定義されるので、ここではスキップ
+        if isinstance(field, ManyToManyField):
+            return None
+
         # 逆参照などを除いた、DBのテーブルにカラムとして存在するフィールドであるかを判定
         if hasattr(field, "column") and field.column:  # type: ignore
+            db_type = (
+                field.target_field.db_type(connection=connection)
+                if isinstance(field, (ForeignKey | OneToOneField))
+                else field.db_type(connection=connection)
+            )
+
             field_info: FieldInfo = {
                 "column_name": field.column,  # type: ignore
                 "verbose_name": str(getattr(field, "verbose_name", "")),
                 "field_type": field.get_internal_type(),
+                "db_type": db_type,
                 "max_length": getattr(field, "max_length", None),
                 "primary_key": getattr(field, "primary_key", None),
                 "unique": getattr(field, "unique", None),
                 "null": getattr(field, "null", None),
-                "is_relation": field.is_relation,
                 "related_model": None,
                 "choices": None,
                 "on_delete": None,
             }
 
-            # choices
             if getattr(field, "choices", None):
                 field_info["choices"] = [
                     {"value": choice[0], "label": str(choice[1])}
                     for choice in field.choices  # type: ignore
                 ]
 
-            # relation
-            if isinstance(field, ForeignKey | OneToOneField | ManyToManyField):
+            if isinstance(field, (ForeignKey | OneToOneField)):
                 related = field.related_model
                 if related:
                     field_info["related_model"] = {
@@ -122,13 +163,12 @@ class ModelsManager:
                         "related_name": field.related_query_name(),
                     }
 
-                # on_delete
                 if field.remote_field.on_delete:  # type: ignore
                     field_info["on_delete"] = field.remote_field.on_delete.__name__  # type: ignore
-        else:
-            return None
 
-        return field_info
+            return field_info
+
+        return None
 
 
 def generate_table_definitions(models: list[ModelInfo], output_dir: str):
@@ -172,9 +212,9 @@ def generate_table_definitions(models: list[ModelInfo], output_dir: str):
             # カラム情報
             table_md.write("## カラム情報\n\n")
             table_md.write(
-                "| No. | カラム名 | 日本語名 | 型 | max_length | 主キー | ユニーク | NULL | 選択肢 | リレーション | on_delete |\n"
+                "| No. | カラム名 | 日本語名 | 型 | 主キー | ユニーク | NULL | 選択肢 | リレーション | on_delete |\n"
             )
-            table_md.write("|---|---|---|---|---|---|---|---|---|---|---|\n")
+            table_md.write("|---|---|---|---|---|---|---|---|---|---|\n")
             for i, field in enumerate(model["fields"], start=1):
                 choices = "-"
                 if field["choices"]:
@@ -190,8 +230,7 @@ def generate_table_definitions(models: list[ModelInfo], output_dir: str):
                     f"| {i} "
                     f"| {field['column_name']} "
                     f"| {field['verbose_name']} "
-                    f"| {field['field_type']} "
-                    f"| {field.get('max_length', '-') or '-'} "
+                    f"| {field['db_type']} "
                     f"| {'✅' if field['primary_key'] else '❌'} "
                     f"| {'✅' if field['unique'] else '❌'} "
                     f"| {'✅' if field['null'] else '❌'} "
@@ -226,12 +265,12 @@ def generate_er(models: list[ModelInfo], output_dir: str):
         table_lines = [f"    {table_name} {{"]
 
         for field in fields:
-            table_lines.append(f"        {field['field_type']} {field['column_name']}")
+            table_lines.append(f"        {field['db_type']} {field['column_name']}")
 
             # 外部キーリレーション
             if field["related_model"]:
                 target_table = field["related_model"]["table"]
-                related_name = field["related_model"]["related_name"]
+                related_name = field["related_model"]["related_name"].rstrip("+")
                 rel = f"    {table_name} ||--|{{ {target_table} : {related_name}"
                 if rel not in relations:
                     relations.append(rel)
