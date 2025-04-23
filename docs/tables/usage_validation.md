@@ -9,7 +9,7 @@
 | 3 | positive_even | 正の偶数 | integer | ❌ | ❌ | ❌ | - | - | - |
 | 4 | unique | ユニーク制限 | varchar(20) | ❌ | ✅ | ❌ | - | - | - |
 | 5 | choices | 選択式 | varchar(20) | ❌ | ❌ | ❌ | 1: a<br>2: b<br>3: c | - | - |
-| 6 | ref_id | 参照先 | varchar(20) | ❌ | ❌ | ❌ | - | usage_validationreference | CASCADE |
+| 6 | ref_id | 参照先 | varchar(20) | ❌ | ❌ | ❌ | - | [usage_validationreference](./usage_validationreference.md) | CASCADE |
 ## 複合ユニーク制約
 
 | No. | 制約名 | fields |

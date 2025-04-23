@@ -6,7 +6,7 @@
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | id | ID | integer | ✅ | ✅ | ❌ | - | - | - |
 | 2 | name | 名前 | text | ❌ | ❌ | ❌ | - | - | - |
-| 3 | ref_id | DocsMainへの参照 | integer | ❌ | ❌ | ❌ | - | docs_main | CASCADE |
+| 3 | ref_id | DocsMainへの参照 | integer | ❌ | ❌ | ❌ | - | [docs_main](./docs_main.md) | CASCADE |
 ## 複合ユニーク制約
 
 | No. | 制約名 | fields |

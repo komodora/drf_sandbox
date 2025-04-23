@@ -224,7 +224,7 @@ def generate_table_definitions(models: list[ModelInfo], output_dir: str):
 
                 related = "-"
                 if field["related_model"]:
-                    related = field["related_model"]["table"]
+                    related = f"[{field['related_model']['table']}](./{field['related_model']['table']}.md)"
 
                 table_md.write(
                     f"| {i} "
