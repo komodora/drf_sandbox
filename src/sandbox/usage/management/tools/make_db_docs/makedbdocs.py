@@ -130,7 +130,7 @@ class ModelsManager:
         if hasattr(field, "column") and field.column:  # type: ignore
             db_type = (
                 field.target_field.db_type(connection=connection)
-                if isinstance(field, (ForeignKey | OneToOneField))
+                if isinstance(field, (ForeignKey, OneToOneField))  # noqa: UP038
                 else field.db_type(connection=connection)
             )
 
@@ -155,7 +155,7 @@ class ModelsManager:
                     for choice in field.choices  # type: ignore
                 ]
 
-            if isinstance(field, (ForeignKey | OneToOneField)):
+            if isinstance(field, (ForeignKey, OneToOneField)):  # noqa: UP038
                 related = field.related_model
                 if related:
                     field_info["related_model"] = {
