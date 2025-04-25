@@ -38,6 +38,7 @@ class FieldInfo(TypedDict):
     choices: list[ChoiceInfo] | None
     on_delete: str | None
     max_length: int | None
+    db_comment: str | None
 
 
 class UniqueConstraintInfo(TypedDict):
@@ -145,6 +146,7 @@ class ModelsManager:
                 "related_model": None,
                 "choices": None,
                 "on_delete": None,
+                "db_comment": getattr(field, "db_comment", None),
             }
 
             if getattr(field, "choices", None):
@@ -212,17 +214,17 @@ def generate_table_definitions(models: list[ModelInfo], output_dir: str):
             # カラム情報
             table_md.write("## カラム情報\n\n")
             table_md.write(
-                "| No. | カラム名 | 日本語名 | 型 | 主キー | ユニーク | NULL | 選択肢 | リレーション | on_delete |\n"
+                "| No. | カラム名 | 日本語名 | 型 | 主キー | ユニーク | NULL | 選択肢 | リレーション | on_delete | 補足 |\n"
             )
-            table_md.write("|---|---|---|---|---|---|---|---|---|---|\n")
+            table_md.write("|---|---|---|---|---|---|---|---|---|---|---|\n")
             for i, field in enumerate(model["fields"], start=1):
-                choices = "-"
+                choices = ""
                 if field["choices"]:
                     choices = "<br>".join(
                         [f"{c['value']}: {c['label']}" for c in field["choices"]]
                     )
 
-                related = "-"
+                related = ""
                 if field["related_model"]:
                     related = f"[{field['related_model']['table']}](./{field['related_model']['table']}.md)"
 
@@ -231,12 +233,13 @@ def generate_table_definitions(models: list[ModelInfo], output_dir: str):
                     f"| {field['column_name']} "
                     f"| {field['verbose_name']} "
                     f"| {field['db_type']} "
-                    f"| {'✅' if field['primary_key'] else '❌'} "
-                    f"| {'✅' if field['unique'] else '❌'} "
-                    f"| {'✅' if field['null'] else '❌'} "
+                    f"| {'✅' if field['primary_key'] else ''} "
+                    f"| {'✅' if field['unique'] else ''} "
+                    f"| {'✅' if field['null'] else ''} "
                     f"| {choices} "
                     f"| {related} "
-                    f"| {field['on_delete'] or '-'} "
+                    f"| {field['on_delete'] or ''} "
+                    f"| {field['db_comment'] or ''} "
                     f"|\n"
                 )
 

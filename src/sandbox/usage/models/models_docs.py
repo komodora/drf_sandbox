@@ -5,7 +5,12 @@ class DocsMain(models.Model):
     CHOICES = [(0, "alpha"), (1, "bravo"), (2, "charlie")]
 
     uuid = models.UUIDField(verbose_name="uuid", unique=True)
-    title = models.CharField(verbose_name="タイトル", max_length=50, unique=True)
+    title = models.CharField(
+        verbose_name="タイトル",
+        max_length=50,
+        unique=True,
+        db_comment="ここに補足コメントを入れることができます",
+    )
     char_field = models.CharField(verbose_name="20文字まで", max_length=20)
     text_field = models.TextField(verbose_name="テキスト")
     integer_field = models.IntegerField(verbose_name="整数", null=True)
