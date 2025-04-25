@@ -29,6 +29,7 @@
 - [djangoカスタムコマンドの追加](src/sandbox/usage/management/commands/batch.py)
 - [middlewareの実装](src/sandbox/usage/middleware/access_log.py)
 - [serializerにおけるvalidation](src/sandbox/usage/validation/serializer.py)
+- [テーブル定義書、ER図の自動生成](src/sandbox/usage/management/tools/make_db_docs/README.md)
 - [pytest-djangoの導入](tests/README.md)
 
 追加予定
